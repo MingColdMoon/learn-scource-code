@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实现一个字符串压缩</title>
+</head>
+
+<body>
+
+  <script>
+
+    function yasuo (str) {
+      // 当前字符
+      let currentStr = ''
+      // 当前次数
+      let currentIndex = 0
+      // 结果
+      let result = ''
+      // 当前遍历索引
+      let index = 0
+
+      // 遍历字符串，每次遍历对比当前值和上一次值是否一样，如果不一样则直接将上次的字符和次数输出，如果一样则+1继续走
+      // 当遍历到最后一位时，直接将currentStr和currentIndex输出
+      for (const iterator of str) {
+        if (iterator !== currentStr) {
+          if (currentStr !== '' && currentIndex > 0) {
+            result += currentStr + currentIndex
+          }
+          currentStr = iterator
+          currentIndex = 1
+        } else {
+          currentIndex++
+        }
+        index++
+        // 判断是否是最后一位，如果是，则直接加入到结果中
+        if (index === str.length) {
+          result += currentStr + currentIndex
+        }
+      }
+      return result
+    }
+    console.log(yasuo('abbcccaaaa'))
+  </script>
+</body>
+
+</html>

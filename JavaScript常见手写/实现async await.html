@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>async await</title>
+</head>
+
+<body>
+  <script>
+
+    function request (content, time) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(content)
+        }, time);
+      })
+    }
+
+    function* myAsnyc () {
+      let p1 = yield request('123', 1000)
+      let p2 = yield request('456', 2000)
+      let p3 = yield '789'
+    }
+
+    function co (iter) {
+      return new Promise((resolve, reject) => {
+        const walk = (data) => {
+          const { done, value } = iter.next(data)
+          // 因为不知道value是否是一个promise，所以直接包一层
+          Promise.resolve(value).then(res => {
+            done ? resolve(res) : walk(res)
+          })
+        }
+        walk()
+      })
+    }
+    co(myAsnyc()).then(res => {
+      console.log('then', res)
+    })
+  </script>
+</body>
+
+</html>
