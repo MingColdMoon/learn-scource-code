@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4种继承方法优缺点</title>
+</head>
+
+<body>
+  <script>
+
+    /**
+     * 原型链继承
+     * 优点：Child实例可以访问到Parent及其prototype的所有方法 
+     * 缺点：Parent上面的属性如果是引用类型，则会共享
+     * */
+    class Parent {
+    }
+    Parent.prototype.say = function () {
+      console.log('111')
+    }
+    class Child {
+    }
+    Child.prototype = new Parent()
+
+    /**
+     * 构造器继承
+     * 优点：解决了引用类型共享的问题
+     * 缺点：Child实例访问不到Parent原型上面的方法
+     * */
+    class Parent {
+    }
+    Parent.prototype.say = function () {
+      console.log('111')
+    }
+    class Child {
+      Parent ().call (this)
+    }
+
+    /**
+     * 组合式继承
+     * 优点：解决了引用类型共享的问题, 解决了Child实例访问不到Parent原型问题
+     * 缺点：调用了两次Parent，会将Parent的原型方法带进来
+     * */
+    class Parent {
+    }
+    Parent.prototype.say = function () {
+      console.log('111')
+    }
+    class Child {
+      Parent ().call (this)
+    }
+    Child.prototype = new Parent()
+
+    /**
+     * 寄生组合式继承
+     * 优点：解决了引用类型共享的问题, 解决了Child实例访问不到Parent原型问题，调用了1次Parent
+     * 缺点：Child实例访问不到Child.prototype的方法
+     * */
+    class Parent {
+    }
+    class Child {
+    }
+    Child.prototype = Object.create(Parent.prototype)
+    Child.prototype.constructor = Child()
+
+  </script>
+</body>
+
+</html>
